@@ -1,0 +1,701 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nico Nelissen Portfolio</title>
+<meta name="description" content="Nico Nelissen, DevOps Engineer: applications, data platforms and applied AI. Case studies, delivery practices and technical stack.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+/* Layout: an engineer's case file. Sticky section index, a status board as the hero,
+   and each project filed with a status chip, a role record and two evidence lists. */
+:root{
+  --paper:#F3F5F2; --card:#FBFCFA; --ink:#15211D; --muted:#56655F; --rule:#D5DCD7;
+  --accent:#2C6A55; --accent-soft:#E2EEE8; --wheat:#9C6A12;
+  --ok:#23784A; --pilot:#9A6110; --poc:#56677A; --wip:#2D5C9B; --chip-bg:#E9EEEA;
+  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0E1412; --card:#141C19; --ink:#E3EAE6; --muted:#97A69F; --rule:#27322D;
+    --accent:#72C2A2; --accent-soft:#1A2B25; --wheat:#E2AB4D;
+    --ok:#5FC48E; --pilot:#E2AB4D; --poc:#A3B2C2; --wip:#86ACE6; --chip-bg:#1B2521;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0E1412; --card:#141C19; --ink:#E3EAE6; --muted:#97A69F; --rule:#27322D;
+  --accent:#72C2A2; --accent-soft:#1A2B25; --wheat:#E2AB4D;
+  --ok:#5FC48E; --pilot:#E2AB4D; --poc:#A3B2C2; --wip:#86ACE6; --chip-bg:#1B2521;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--f-body);font-size:16.5px;line-height:1.6;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));
+  padding-right:max(16px, env(safe-area-inset-right, 0px));
+  -webkit-font-smoothing:antialiased;
+}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top, 0px);z-index:10;background:var(--paper)}
+a{color:var(--accent);text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1120px;margin:0 auto}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.12}
+p{margin:0}
+.mono{font-family:var(--f-mono);font-size:.82rem;letter-spacing:.02em}
+.eyebrow{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+/* Top bar */
+.topbar{position:sticky;top:env(safe-area-inset-top, 0px);z-index:5;background:var(--paper);border-bottom:1px solid var(--rule)}
+.topbar .wrap{display:flex;align-items:center;gap:20px;padding-block:12px}
+.brand{font-family:var(--f-display);font-weight:800;font-size:1.05rem;white-space:nowrap;color:var(--ink);text-decoration:none}
+.nav{display:flex;gap:18px;overflow-x:auto;scrollbar-width:none;min-width:0}
+.nav::-webkit-scrollbar{display:none}
+.nav a{font-size:.9rem;color:var(--muted);text-decoration:none;white-space:nowrap;padding-block:4px}
+.nav a:hover{color:var(--ink)}
+
+/* Hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:48px;padding-block:64px 40px;align-items:start}
+.hero h1{font-size:clamp(2.6rem,6.4vw,4.6rem);font-weight:800;letter-spacing:-.025em}
+.hero .role{margin-top:14px;font-family:var(--f-display);font-weight:500;font-size:clamp(1.15rem,2.2vw,1.45rem);color:var(--accent)}
+.hero .lede{margin-top:22px;max-width:60ch;font-size:1.08rem}
+.facts{margin-top:22px;display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--muted);font-size:.92rem}
+.contact-row{margin-top:26px;display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.email{font-family:var(--f-mono);font-size:.92rem;background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:8px 12px;user-select:all;color:var(--ink)}
+.btn{font:500 .9rem var(--f-body);border:1px solid var(--accent);background:var(--accent);color:var(--paper);border-radius:8px;padding:8px 14px;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn:hover{filter:brightness(1.08)}
+
+/* Status board */
+.board{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:18px 18px 8px}
+.board-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-bottom:10px;border-bottom:1px solid var(--rule)}
+.board ul{list-style:none;margin:0;padding:0}
+.board li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--rule)}
+.board li:last-child{border-bottom:none}
+.board a{color:var(--ink);text-decoration:none;font-weight:600}
+.board a:hover{color:var(--accent)}
+.board small{grid-column:1 / -1;color:var(--muted);font-size:.85rem;line-height:1.4}
+.chip{display:inline-flex;align-items:center;gap:7px;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.04em;text-transform:uppercase;padding:4px 9px;border-radius:999px;background:var(--chip-bg);white-space:nowrap}
+.chip::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.chip.ok{color:var(--ok)} .chip.pilot{color:var(--pilot)} .chip.poc{color:var(--poc)} .chip.wip{color:var(--wip)} .chip.done{color:var(--accent)}
+
+/* Metrics */
+.metrics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.metric{padding:18px 14px;border-right:1px solid var(--rule)}
+.metric:last-child{border-right:none}
+.metric b{display:block;font-family:var(--f-display);font-size:1.75rem;font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink)}
+.metric span{display:block;font-size:.82rem;color:var(--muted);line-height:1.35;margin-top:2px}
+
+/* Sections */
+section.block{padding-block:72px 8px}
+.sec-head{display:grid;grid-template-columns:200px minmax(0,1fr);gap:32px;margin-bottom:28px}
+.sec-head h2{font-size:clamp(1.7rem,3.4vw,2.35rem);font-weight:700;letter-spacing:-.015em}
+.sec-head p.intro{margin-top:12px;max-width:66ch;color:var(--muted);font-size:1.02rem}
+.body-col{margin-left:232px}
+.prose{max-width:68ch}
+
+/* Role alignment table */
+.table-scroll{overflow-x:auto}
+table.align{width:100%;border-collapse:collapse;font-size:.95rem}
+table.align th,table.align td{text-align:left;vertical-align:top;padding:14px 16px 14px 0;border-top:1px solid var(--rule)}
+table.align th{font-family:var(--f-display);font-weight:700;font-size:1rem;width:28%;white-space:nowrap;padding-right:24px}
+table.align td.ev{color:var(--muted);font-size:.9rem}
+
+/* Evidence map */
+.map{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.map a.tile{display:flex;flex-direction:column;gap:10px;padding:18px;border:1px solid var(--rule);border-radius:10px;background:var(--card);color:var(--ink);text-decoration:none;min-width:0}
+.map a.tile:hover{border-color:var(--accent)}
+.map h3{font-size:1.08rem;font-weight:700}
+.map p{font-size:.9rem;color:var(--muted);line-height:1.5}
+.map .shows{font-size:.82rem;color:var(--accent);margin-top:auto}
+
+/* Case files */
+.case{border-top:2px solid var(--ink);padding-top:22px;margin-top:44px}
+.case:first-of-type{margin-top:0}
+.case-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px}
+.case h3{font-size:clamp(1.4rem,2.6vw,1.85rem);font-weight:700;letter-spacing:-.01em;margin-top:12px}
+.case .summary{margin-top:14px;max-width:72ch;font-size:1.03rem}
+.record{margin:22px 0 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border:1px solid var(--rule);border-radius:10px;background:var(--card)}
+.record div{padding:14px 16px;border-right:1px solid var(--rule);min-width:0}
+.record div:last-child{border-right:none}
+.record dt{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.record dd{margin:6px 0 0;font-size:.9rem;line-height:1.45}
+.two{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:40px;margin-top:26px}
+.two h4{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;font-weight:500}
+ul.ev{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+ul.ev li{position:relative;padding-left:18px;font-size:.95rem;line-height:1.55}
+ul.ev li::before{content:"";position:absolute;left:0;top:.62em;width:7px;height:7px;border:1.5px solid var(--accent);border-radius:2px}
+ul.ev li b{font-weight:600}
+ul.demo li::before{border-color:var(--wheat)}
+.note{margin-top:22px;padding:14px 16px;border-left:3px solid var(--wheat);background:var(--accent-soft);border-radius:0 8px 8px 0;font-size:.92rem;max-width:80ch}
+.note b{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:4px;color:var(--wheat)}
+
+/* Practice grid */
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 40px}
+.pitem{padding:16px 0;border-top:1px solid var(--rule);min-width:0}
+.pitem h3{font-size:1.05rem;font-weight:700}
+.pitem p{margin-top:6px;font-size:.93rem;color:var(--muted)}
+
+/* Stack table */
+table.stack{width:100%;border-collapse:collapse;font-size:.92rem}
+table.stack th{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:500;text-align:left;padding:0 16px 10px 0}
+table.stack td{vertical-align:top;padding:14px 16px 14px 0;border-top:1px solid var(--rule)}
+table.stack td:first-child{font-family:var(--f-display);font-weight:700;font-size:1rem;white-space:nowrap}
+table.stack td:last-child{color:var(--muted)}
+
+/* Timeline */
+.timeline{list-style:none;margin:0;padding:0}
+.timeline li{display:grid;grid-template-columns:170px minmax(0,1fr);gap:24px;padding:16px 0;border-top:1px solid var(--rule)}
+.timeline .when{font-family:var(--f-mono);font-size:.8rem;color:var(--muted);padding-top:3px}
+.timeline h3{font-size:1.08rem;font-weight:700}
+.timeline p{margin-top:4px;font-size:.93rem;color:var(--muted)}
+
+.certs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 40px}
+.cert{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-top:1px solid var(--rule);font-size:.93rem}
+.cert span:last-child{font-family:var(--f-mono);font-size:.8rem;color:var(--muted);white-space:nowrap;padding-top:2px}
+
+.closing{margin-top:8px;padding:28px;border:1px solid var(--rule);border-radius:12px;background:var(--card)}
+.closing p{max-width:72ch;font-size:1.02rem}
+.closing p + p{margin-top:12px}
+
+footer{margin-top:88px;border-top:1px solid var(--rule);padding-block:36px 48px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:24px;align-items:flex-end}
+footer h2{font-size:clamp(1.6rem,3.2vw,2.2rem);font-weight:800}
+footer .small{color:var(--muted);font-size:.85rem;max-width:62ch;margin-top:10px}
+
+/* Responsive */
+@media (max-width: 980px){
+  .hero{grid-template-columns:minmax(0,1fr);gap:32px;padding-block:44px 32px}
+  .metrics{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .metric:nth-child(3){border-right:none}
+  .metric:nth-child(-n+3){border-bottom:1px solid var(--rule)}
+  .sec-head{grid-template-columns:minmax(0,1fr);gap:8px}
+  .body-col{margin-left:0}
+  .map{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .record{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .record div:nth-child(2){border-right:none}
+  .record div:nth-child(-n+2){border-bottom:1px solid var(--rule)}
+  .two{grid-template-columns:minmax(0,1fr);gap:24px}
+}
+@media (max-width: 640px){
+  body{font-size:16px}
+  .metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .metric{border-right:1px solid var(--rule)!important;border-bottom:1px solid var(--rule)}
+  .metric:nth-child(2n){border-right:none!important}
+  .metric:nth-last-child(-n+2){border-bottom:none}
+  .map,.grid2,.certs{grid-template-columns:minmax(0,1fr)}
+  .record{grid-template-columns:minmax(0,1fr)}
+  .record div{border-right:none!important;border-bottom:1px solid var(--rule)}
+  .record div:last-child{border-bottom:none}
+  .timeline li{grid-template-columns:minmax(0,1fr);gap:4px}
+  table.align th{white-space:normal;width:auto}
+  table.align tr{display:block;border-top:1px solid var(--rule);padding:12px 0}
+  table.align th,table.align td{display:block;border-top:none;padding:2px 0}
+  table.stack td:first-child{white-space:normal}
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="#top">Nico Nelissen</a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#profile">Profile</a>
+      <a href="#evidence">Evidence</a>
+      <a href="#cases">Case studies</a>
+      <a href="#practice">How I work</a>
+      <a href="#ai">Applied AI</a>
+      <a href="#stack">Stack</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="top">
+
+  <div class="hero">
+    <div>
+      <p class="eyebrow">Technical portfolio</p>
+      <h1 style="margin-top:12px">Nico Nelissen</h1>
+      <p class="role">DevOps Engineer | Applications, Data Platforms &amp; Applied AI</p>
+      <p class="lede">I build, ship and run the systems I design: Snowflake applications, hybrid SQL Server to cloud data flows, Azure DevOps delivery and LLM features that hold up with real users. Eight years at an agricultural cooperative took me from senior IT support to sole developer of its business-critical tooling.</p>
+      <div class="facts">
+        <span>Swellendam, Western Cape, South Africa</span>
+        <span>South African and Belgian citizen</span>
+        <span>Open to remote roles</span>
+      </div>
+      <div class="contact-row">
+        <span class="email" id="email-text">nico.nelissen@gmail.com</span>
+        <button class="btn" type="button" id="copy-email">Copy email</button>
+        <a class="btn ghost" href="mailto:nico.nelissen@gmail.com" style="text-decoration:none">Write to me</a>
+      </div>
+    </div>
+
+    <aside class="board" aria-label="Systems status board">
+      <div class="board-head">
+        <span class="eyebrow">Systems I build and run</span>
+        <span class="mono" style="color:var(--muted)">Oct 2026</span>
+      </div>
+      <ul>
+        <li><a href="#kb">SSK Knowledge Base</a><span class="chip ok">In daily use</span>
+          <small>Cortex agent over Cortex Search, cited answers, about 10 daily users</small></li>
+        <li><a href="#reqentra">Reqentra and Safe Space</a><span class="chip pilot">Pilot</span>
+          <small>Multi-tenant SaaS helpdesk with a self-hosted LLM, on a Docker test server</small></li>
+        <li><a href="#access">Access Governance App</a><span class="chip done">Replaced vendor tool</span>
+          <small>Snowflake-native Streamlit app with Qlik Cloud API integration</small></li>
+        <li><a href="#discovery">Application Discovery</a><span class="chip done">Delivered</span>
+          <small>23 legacy applications documented, 779-line business rules catalogue</small></li>
+        <li><a href="#dcpicking">DC Picking</a><span class="chip poc">Proof of concept</span>
+          <small>Legacy warehouse app rebuilt on Snowflake with a SQL Server sync engine</small></li>
+        <li><a href="#containers">Non-production containerisation</a><span class="chip wip">In progress</span>
+          <small>Azure DevOps foundation for containerised test environments</small></li>
+      </ul>
+    </aside>
+  </div>
+
+  <div class="metrics" role="list" aria-label="Key figures">
+    <div class="metric" role="listitem"><b>~10</b><span>staff using the AI assistant daily</span></div>
+    <div class="metric" role="listitem"><b>0</b><span>user-reported issues since launch</span></div>
+    <div class="metric" role="listitem"><b>137</b><span>deployments in its first five weeks</span></div>
+    <div class="metric" role="listitem"><b>23</b><span>legacy applications documented</span></div>
+    <div class="metric" role="listitem"><b>200+</b><span>stored procedures analysed</span></div>
+    <div class="metric" role="listitem"><b>9 / 9</b><span>unseen replies judged correctly by Safe Space</span></div>
+  </div>
+
+  <!-- 1. Profile -->
+  <section class="block" id="profile">
+    <div class="sec-head">
+      <p class="eyebrow">Profile</p>
+      <div>
+        <h2>Between business operations and technical delivery</h2>
+        <p class="intro">I am a practical DevOps engineer with a background across senior IT support, systems administration, application development, SQL and Snowflake data workflows, CI/CD delivery, documentation, systems integration and applied AI. I understand the real operational problem first, simplify the workflow, build maintainable tooling, make it repeatable and document it so it can be supported after delivery.</p>
+      </div>
+    </div>
+    <div class="body-col table-scroll">
+      <table class="align">
+        <tbody>
+          <tr><th scope="row">DevOps engineering</th><td>Azure DevOps, Git, YAML pipelines, deployment workflow, self-hosted agents, GitOps-style Snowflake deployment and secure secrets handling.</td></tr>
+          <tr><th scope="row">Application development</th><td>Snowflake-native Streamlit applications, Python, SQL stored procedures, internal tooling, operational workflows and production supportability.</td></tr>
+          <tr><th scope="row">Data automation</th><td>SQL Server to Snowflake patterns, MERGE and watermark sync, stored procedure analysis, views, tasks, data flow mapping and integration dependencies.</td></tr>
+          <tr><th scope="row">Applied AI and LLM engineering</th><td>Two AI applications: a Cortex agent knowledge assistant in daily production use with retrieval-only grounding, and a self-hosted LLM tone review and reply copilot with measured prompt evaluation. Daily agentic coding with pull-request review and human validation.</td></tr>
+          <tr><th scope="row">Business and stakeholder fit</th><td>A strong documentation habit, the ability to translate technical behaviour into business language, and years of supporting users and operational systems.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 2. Evidence map -->
+  <section class="block" id="evidence">
+    <div class="sec-head">
+      <p class="eyebrow">Evidence map</p>
+      <div>
+        <h2>What exists, and where it applies</h2>
+        <p class="intro">Each tile links to the full case file below.</p>
+      </div>
+    </div>
+    <div class="map">
+      <a class="tile" href="#kb"><span class="chip ok">In daily use</span><h3>SSK Knowledge Base Platform</h3><p>Containerised Flask and JavaScript documentation platform on Snowpark Container Services with a Cortex agent over two Cortex Search services, giving cited, conversational answers.</p><span class="shows">Agentic delivery, retrieval design, documentation as a product</span></a>
+      <a class="tile" href="#reqentra"><span class="chip pilot">Pilot</span><h3>Reqentra SaaS helpdesk</h3><p>Multi-tenant helpdesk with enterprise single sign-on, Microsoft 365 integration and customer-owned backups. Safe Space reviews every reply with a self-hosted Qwen 2.5 7B model.</p><span class="shows">SaaS design, LLM product engineering, data-sovereign AI</span></a>
+      <a class="tile" href="#access"><span class="chip done">Replaced vendor tool</span><h3>Access Governance App</h3><p>Snowflake-native access management for Qlik Cloud Section Access: Streamlit UI, 17 procedures, 5 scheduled tasks, OAuth M2M, webhooks and Azure DevOps CI/CD.</p><span class="shows">Secure internal tooling, API integration, auditability</span></a>
+      <a class="tile" href="#discovery"><span class="chip done">Delivered</span><h3>Enterprise Application Discovery</h3><p>Structured discovery and modernisation documentation across 23 legacy applications; 200+ stored procedures analysed into a 779-line business rules catalogue.</p><span class="shows">Systems analysis, reverse engineering, migration readiness</span></a>
+      <a class="tile" href="#dcpicking"><span class="chip poc">Proof of concept</span><h3>DC Picking</h3><p>A legacy warehouse picking application rebuilt on Snowflake and Streamlit, with a manifest-driven SQL Server to Snowflake sync engine.</p><span class="shows">On-prem to cloud integration, modernisation path</span></a>
+      <a class="tile" href="#practice"><span class="chip done">Daily practice</span><h3>Delivery and AI-assisted engineering</h3><p>YAML pipelines, approval gates, self-hosted agents and repository-driven deployment, plus agentic coding with reviewed pull requests and cross-verified analysis.</p><span class="shows">Delivery discipline, responsible AI use</span></a>
+    </div>
+  </section>
+
+  <!-- Case studies -->
+  <section class="block" id="cases">
+    <div class="sec-head">
+      <p class="eyebrow">Case studies</p>
+      <div>
+        <h2>Case files</h2>
+        <p class="intro">Each file records my role, the build type, the business value, what I delivered and what it demonstrates. Statuses are stated plainly: in daily use, pilot or proof of concept.</p>
+      </div>
+    </div>
+
+    <article class="case" id="kb">
+      <div class="case-top"><span class="eyebrow">Case file 01</span><span class="chip ok">In daily use since 2026</span></div>
+      <h3>SSK Knowledge Base Platform</h3>
+      <p class="summary">A containerised web application that serves the documentation produced in the application discovery programme and makes it conversationally searchable. It runs as a Flask application in Docker on Snowpark Container Services with a JavaScript front end, and layers a Snowflake Cortex agent over two Cortex Search services, so engineers and non-technical staff can ask questions in plain language and receive answers that cite their sources. It worked from first launch and is used daily by about 10 support and development staff, with no user-reported issues since.</p>
+      <dl class="record">
+        <div><dt>My role</dt><dd>Sole developer, solution designer, deployer and maintainer</dd></div>
+        <div><dt>Build type</dt><dd>New build: documentation platform with agentic retrieval</dd></div>
+        <div><dt>Business value</dt><dd>Turns static documentation into a cited knowledge source and reduces key-person risk</dd></div>
+        <div><dt>Relevant to</dt><dd>Applied AI, AI automation, platform, technical documentation and internal tools roles</dd></div>
+      </dl>
+      <div class="two">
+        <div>
+          <h4>What I delivered</h4>
+          <ul class="ev">
+            <li><b>Knowledge extraction with AI.</b> Claude Code with MCP tooling pulled source code, stored procedures and business logic out of 23 legacy applications. That became versioned documentation and a business rules catalogue, with every finding checked against the source.</li>
+            <li><b>Container platform.</b> Flask API and viewer packaged in Docker on Snowpark Container Services, with a multi-stage build that bundles a Svelte and TypeScript architecture viewer.</li>
+            <li><b>Agentic retrieval.</b> A Cortex agent orchestrates two Cortex Search services, one over document chunks and one over SQL object definitions, and returns cited answers with section-level source trails. Cortex COMPLETE is the fallback.</li>
+            <li><b>Deterministic routing</b> for roster-style questions, such as listing every SQL Agent job, where top-k retrieval is the wrong tool. The reasoning is documented in code.</li>
+            <li><b>Git-driven content.</b> The app reads documentation straight from the repository branch in Snowflake, so it always serves what version control holds.</li>
+            <li><b>Retrieval-only grounding.</b> Every answer is grounded by Cortex Search at question time. No facts are precomputed into prompts, and prompts are assembled server side only; the browser never sends a system prompt.</li>
+            <li><b>A deliberate platform decision.</b> I built, then reverted, a direct LLM API path in favour of Cortex. Cortex needs no API key, egress rule or key rotation, authenticates with the container's own session and still offers Claude models.</li>
+            <li><b>Operational hardening.</b> Request time budgeting with fallback paths, usage logging, chat history and feedback capture, cache-busting build IDs and refresh endpoints.</li>
+            <li><b>Delivery pace.</b> Redeployed 137 times through the CI/CD pipeline in its first five weeks.</li>
+            <li><b>Features people use.</b> Pinned documents, chat scoped to selected documents, a full document tree, printing and Mermaid diagrams.</li>
+            <li><b>Security and reliability review</b> of the live app, with each finding fixed on its own branch through a reviewed pull request.</li>
+            <li><b>Measured documentation quality.</b> Companion documentation standards define the structure the app parses. An audit found 221 of 1,092 business rules unreadable by the assistant, and version 2.0 of the standard closed that gap.</li>
+          </ul>
+        </div>
+        <div>
+          <h4>What it demonstrates</h4>
+          <ul class="ev">
+            <li>End-to-end agentic application delivery: container platform, retrieval design, prompt and orchestration discipline and UI, beyond simple API calls.</li>
+            <li>Documentation treated as a product: standards authorship, a docs-as-code pipeline and measurable quality feedback loops.</li>
+            <li>AI applied to a real operational problem with governance, logging and fallback behaviour, consistent with responsible production use.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <article class="case" id="reqentra">
+      <div class="case-top"><span class="eyebrow">Case file 02 | Own product</span><span class="chip pilot">Pilot | Docker test server</span></div>
+      <h3>Reqentra SaaS Helpdesk and Safe Space</h3>
+      <p class="summary">Reqentra is my own product, currently in pilot: a multi-tenant SaaS helpdesk built in Next.js and TypeScript and deployed as Docker containers. Self-service signup provisions an isolated tenant per customer on its own subdomain with TLS. Agents sign in through their company's own directory, and Microsoft 365 mailboxes connect over Microsoft Graph. The source is in GitHub and the app is hosted on a Docker test server. Safe Space is its AI feature: before an agent's reply reaches a customer, a self-hosted language model judges whether it is unprofessional, and incoming requester messages are checked for passive aggression. A reply copilot on the same model drafts, improves and summarises. Built September to October 2026.</p>
+      <dl class="record">
+        <div><dt>My role</dt><dd>Founder, sole developer and operator</dd></div>
+        <div><dt>Build type</dt><dd>New product: multi-tenant SaaS with a self-hosted LLM feature</dd></div>
+        <div><dt>Business value</dt><dd>Protects tone with customers without sending ticket text to an external AI service, with an auditable record</dd></div>
+        <div><dt>Relevant to</dt><dd>Applied AI, SaaS and product engineering, platform and AI automation roles</dd></div>
+      </dl>
+      <div class="two">
+        <div>
+          <h4>What I delivered</h4>
+          <ul class="ev">
+            <li><b>Physical tenant isolation.</b> A provisioner service creates an isolated tenant per customer, with its own container, its own database and its own subdomain with TLS, instead of a tenant key in a shared database. A separate public front door handles enrolment.</li>
+            <li><b>Enterprise identity and mail.</b> Single sign-on through Microsoft Entra ID, Google and generic OIDC, passkeys for the administrator account, and Microsoft 365 mailboxes connected over Microsoft Graph with OAuth consent.</li>
+            <li><b>Backups the customer owns.</b> Continuous replication with point-in-time recovery to S3-compatible object storage in the customer's own cloud account, in a region they choose and under keys they can revoke, proven by a scripted restore drill.</li>
+            <li><b>Self-hosted by design.</b> An open-weight model (Qwen 2.5 7B Instruct) served by Ollama on infrastructure the operator controls, so ticket text never goes to a third-party API. Two switches, operator and customer, must both be on before any text leaves the tenant container.</li>
+            <li><b>Two checks for the two sides of a ticket.</b> Agent replies are judged for unprofessional tone (passive-aggressive, curt, dismissive, lecturing, sarcastic or blaming) as an answer to the requester's last message. Requester messages are checked only for passive aggression, because a customer is allowed to be blunt.</li>
+            <li><b>Prompt evaluation on held-out examples.</b> The first, narrower prompt let three plainly unprofessional replies through. The revised prompt, with context and worked examples, judged 9 of 9 unseen replies and 7 of 7 test messages correctly, at 4 to 9 seconds per check on CPU.</li>
+            <li><b>Human in the loop.</b> A flagged reply is held back with the reason, the quoted words and a one-click rewrite. An agent may still send it, and that is recorded in an admin audit log that is never deleted. Copilot output only ever appears as a preview, so any prompt injection hidden in ticket text cannot act on its own.</li>
+            <li><b>Graceful degradation.</b> A configurable phrase list judges whenever the model is off, unreachable, slow or returns an unreadable answer, so replies never stop.</li>
+            <li><b>Inference without a GPU.</b> Verdicts cached under a hash so no ticket text is stored, one fixed context size to avoid model reloads, and a priority queue that serves agents before background scans.</li>
+            <li><b>Governance.</b> Turning Safe Space on is a logged business decision by an administrator or helpdesk lead, and every agent agrees to it before using the app.</li>
+            <li><b>Engineering workflow.</b> Every change on its own branch through a pull request; developed on Windows, built and run under WSL, then deployed to the Docker test server.</li>
+          </ul>
+        </div>
+        <div>
+          <h4>What it demonstrates</h4>
+          <ul class="ev">
+            <li>SaaS platform design: tenant isolation, enterprise single sign-on, mail integration and backups the customer owns.</li>
+            <li>End-to-end applied AI product work: model choice, prompt design, evaluation, latency, fallback and user experience.</li>
+            <li>Data-sovereign AI: useful LLM features delivered without sending customer data to a third party.</li>
+            <li>AI governance designed into the product: consent switches, human review, audit trail and explicit agreement.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <article class="case" id="access">
+      <div class="case-top"><span class="eyebrow">Case file 03</span><span class="chip done">Replaced an externally hosted product</span></div>
+      <h3>Access Governance App (QlikAccessManager)</h3>
+      <p class="summary">A Snowflake-native web application built to manage Qlik Cloud Section Access, row-level security and user, space and app permissions. It replaced a legacy externally hosted solution and consolidated access-management logic into Snowflake.</p>
+      <dl class="record">
+        <div><dt>My role</dt><dd>Sole developer, solution designer, deployer and maintainer</dd></div>
+        <div><dt>Build type</dt><dd>Greenfield migration from an external platform into Snowflake</dd></div>
+        <div><dt>Business value</dt><dd>Better control, auditability, maintainability and repeatability for sensitive access workflows</dd></div>
+        <div><dt>Relevant to</dt><dd>Platform, DevOps, data automation, AI automation and internal tools roles</dd></div>
+      </dl>
+      <div class="two">
+        <div>
+          <h4>What I delivered</h4>
+          <ul class="ev">
+            <li><b>1,300+ line Streamlit application</b> with five functional areas: policy management, Qlik spaces, Qlik apps, access audit and bulk import.</li>
+            <li><b>17 stored procedures</b> using Python for Qlik Cloud API integration and SQL for data operations.</li>
+            <li><b>5 scheduled Snowflake tasks</b> in a dependency chain for user, space, app and permission synchronisation.</li>
+            <li><b>OAuth M2M token acquisition</b> with user impersonation for audit compliance.</li>
+            <li><b>Webhook integration</b> that triggers a Qlik application reload after policy changes.</li>
+            <li><b>Azure DevOps CI/CD</b> with a business approval gate and incremental deployment.</li>
+            <li><b>Security controls:</b> JWT key-pair authentication, Snowflake Secrets, network rules, external access integration and RBAC.</li>
+          </ul>
+        </div>
+        <div>
+          <h4>What it demonstrates</h4>
+          <ul class="ev">
+            <li>Secure internal tooling around access governance and operational workflows.</li>
+            <li>API integration, secrets handling, scheduled automation, CI/CD and deployment repeatability.</li>
+            <li>Business process, application logic, integration and operational control in one build.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="note"><b>Demo available on request</b>The Section Access page, policy changes with a pending-change preview, the add-policy workflow, export and webhook behaviour, Qlik space and app assignment, access audit, bulk import, and a behind-the-scenes view of procedures, tasks and pipeline structure.</p>
+    </article>
+
+    <article class="case" id="discovery">
+      <div class="case-top"><span class="eyebrow">Case file 04</span><span class="chip done">Delivered</span></div>
+      <h3>Enterprise Application Discovery and Modernisation Readiness</h3>
+      <p class="summary">Structured documentation and migration-readiness analysis for the cooperative's legacy application landscape: discovering application behaviour, documenting business rules, analysing stored procedures, mapping integration dependencies and preparing for modernisation. This body of work is what the knowledge base now serves.</p>
+      <dl class="record">
+        <div><dt>My role</dt><dd>Sole analyst and author</dd></div>
+        <div><dt>Build type</dt><dd>Assessment, documentation, reverse engineering and migration-readiness analysis</dd></div>
+        <div><dt>Business value</dt><dd>Reduced knowledge risk and a stronger foundation for modernisation decisions</dd></div>
+        <div><dt>Relevant to</dt><dd>Solutions engineering, AI automation, data automation and business systems analysis</dd></div>
+      </dl>
+      <div class="two">
+        <div>
+          <h4>What I delivered</h4>
+          <ul class="ev">
+            <li><b>23 master technical documents</b> covering the legacy applications in detail.</li>
+            <li><b>23 gap analysis documents</b> with quantified coverage scoring and action items.</li>
+            <li><b>A business rules catalogue</b> extracted from 200+ stored procedures and organised by domain (779 lines).</li>
+            <li><b>A 35-section discovery and modernisation framework</b> template for assessing any application.</li>
+            <li><b>A version 1 migration business case</b> with effort estimates and a risk register.</li>
+            <li><b>Integration dependency mapping</b> across SAP HANA, SQL Server, linked servers and external systems.</li>
+            <li><b>AI-assisted source code and logic analysis</b> to speed up understanding, with human validation of every finding.</li>
+          </ul>
+        </div>
+        <div>
+          <h4>What it demonstrates</h4>
+          <ul class="ev">
+            <li>Systems thinking and the ability to reason through undocumented enterprise applications.</li>
+            <li>Business-process discovery before automation, which responsible AI and workflow automation depend on.</li>
+            <li>Structured analysis, documentation, stakeholder communication and migration planning.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <article class="case" id="dcpicking">
+      <div class="case-top"><span class="eyebrow">Case file 05</span><span class="chip poc">Proof of concept, no end users</span></div>
+      <h3>DC Picking / ItemWarehouse</h3>
+      <p class="summary">A proof of concept: a Snowflake-native rebuild of a legacy warehouse order-picking application. It shows how a desktop-style process could move to a web-based tool backed by Snowflake and on-prem SQL Server data. It was rebuilt from the legacy application, without end users involved.</p>
+      <dl class="record">
+        <div><dt>My role</dt><dd>Sole developer and solution designer</dd></div>
+        <div><dt>Build type</dt><dd>Proof of concept: rebuild of a legacy operational application</dd></div>
+        <div><dt>Business value</dt><dd>Input for a modernisation decision: web access, traceability and supportability on Snowflake</dd></div>
+        <div><dt>Relevant to</dt><dd>Application development, platform, DevOps, data automation and internal tools roles</dd></div>
+      </dl>
+      <div class="two">
+        <div>
+          <h4>What I delivered</h4>
+          <ul class="ev">
+            <li><b>Streamlit operational app</b> with a picking grid, cart and picking workflow, bulk operations and printable pick-list reports.</li>
+            <li><b>A reusable, manifest-driven sync engine</b>: table syncs are configured in YAML instead of hard-coded scripts.</li>
+            <li><b>An Azure DevOps pipeline</b> designed to run every 15 minutes during operational hours on a self-hosted agent with on-prem SQL Server access.</li>
+            <li><b>MERGE and watermark patterns</b> for near-real-time SQL Server to Snowflake synchronisation.</li>
+            <li><b>Parallel execution</b> with ThreadPoolExecutor, retry logic and pipeline run logging.</li>
+            <li><b>Parameterised stored procedures</b> for transactional operations, to reduce SQL injection risk.</li>
+            <li><b>Printable HTML reports</b> stored in Snowflake for audit and reprint support.</li>
+          </ul>
+        </div>
+        <div>
+          <h4>What it demonstrates</h4>
+          <ul class="ev">
+            <li>How a legacy desktop application can be reverse engineered and rebuilt as web-based tooling on a modern data platform.</li>
+            <li>Hybrid integration thinking: on-prem SQL Server, an Azure DevOps agent, Snowflake, a Streamlit UI and audit tables.</li>
+            <li>Supportability and security-minded design in a proof of concept: parameterised procedures, audit tables and run logging.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <article class="case" id="containers">
+      <div class="case-top"><span class="eyebrow">Case file 06</span><span class="chip wip">In progress</span></div>
+      <h3>Containerised Non-Production Environments</h3>
+      <p class="summary">An initiative to containerise the training, user acceptance and test environments of a point-of-sale system. I am the technical driver, reporting to a non-technical project lead. The first gate is complete; the build pipeline stage is planned and waiting on licensing, access approval and vendor support.</p>
+      <div class="two">
+        <div>
+          <h4>Delivered so far</h4>
+          <ul class="ev">
+            <li><b>A new Azure DevOps project</b> as the home for the initiative.</li>
+            <li><b>A scaffold repository</b> with a three-branch model for development, minor and major releases.</li>
+            <li><b>An epic with 12 priority work items</b> drawn from a restriction register, each tagged with its RACI role.</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Next</h4>
+          <ul class="ev">
+            <li>Build agent, container registry service connection and pipeline.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- 8. Delivery practices -->
+  <section class="block" id="practice">
+    <div class="sec-head">
+      <p class="eyebrow">How I work</p>
+      <div>
+        <h2>Delivery treated as a system</h2>
+        <p class="intro">Across all of this work, delivery is source-controlled, reviewable, repeatable, documented and supportable, whether it is a Snowflake application, a sync pipeline, a Streamlit tool, a documentation framework or an automation workflow.</p>
+      </div>
+    </div>
+    <div class="body-col grid2">
+      <div class="pitem"><h3>Azure DevOps and Git</h3><p>Repos, branches, pull requests, work items, wiki documentation, YAML pipelines and deployment structures. Fetch and rebase before every push, one branch per change.</p></div>
+      <div class="pitem"><h3>CI/CD and deployment control</h3><p>Manual business approval gates, scheduled triggers, conditional deployment steps, incremental deployment and pipeline logging.</p></div>
+      <div class="pitem"><h3>Self-hosted agents</h3><p>Used where pipelines need access to on-prem SQL Server or internal network resources.</p></div>
+      <div class="pitem"><h3>Secrets and authentication</h3><p>Azure DevOps variable groups, Snowflake Secrets, JWT key-pair authentication and no plaintext credentials.</p></div>
+      <div class="pitem"><h3>Infrastructure-as-code habits</h3><p>Version-controlled SQL DDL for Snowflake objects, network rules, external access integrations, tasks, procedures and app deployment configuration.</p></div>
+      <div class="pitem"><h3>Supportability</h3><p>Runbooks, architecture documentation, business rules, handover material, audit trails and investigation notes.</p></div>
+      <div class="pitem"><h3>Evidence over assumption</h3><p>When a governance review was prepared for the platform, I checked its claims against live account telemetry, added 8 new findings to a 35-item register and corrected two claims the data did not support. Each entry was then reshaped with a mitigation, an owner and an official documentation reference.</p></div>
+      <div class="pitem"><h3>Testing within constraints</h3><p>Where the corporate laptop had no Node.js for browser test tooling, front-end changes were verified by driving headless Edge over the Chrome DevTools Protocol from Python.</p></div>
+    </div>
+  </section>
+
+  <!-- 9. Applied AI -->
+  <section class="block" id="ai">
+    <div class="sec-head">
+      <p class="eyebrow">Applied AI</p>
+      <div>
+        <h2>AI with accountability</h2>
+        <p class="intro">AI is part of my daily engineering workflow. I use it to speed up understanding and documentation, never to replace accountability. It adds the most value once the real process is understood.</p>
+      </div>
+    </div>
+    <div class="body-col grid2">
+      <div class="pitem"><h3>Code and SQL analysis</h3><p>Break down stored procedures, control flow, hidden business rules, dependencies and application logic.</p></div>
+      <div class="pitem"><h3>Documentation acceleration</h3><p>Turn rough technical findings into structured handover material, technical documentation and knowledge-base content.</p></div>
+      <div class="pitem"><h3>Troubleshooting support</h3><p>Analyse error messages, pipeline behaviour, SQL logic and application flows for faster root-cause reasoning.</p></div>
+      <div class="pitem"><h3>Solution planning</h3><p>Compare implementation options, find edge cases and reason through operational impact before building.</p></div>
+      <div class="pitem"><h3>Process improvement</h3><p>Find repeated manual work that can be scripted, automated, documented or redesigned.</p></div>
+      <div class="pitem"><h3>Agentic coding with guardrails</h3><p>Claude Code with persistent project rules, a branch and reviewed pull request for every change, MCP tooling for extraction, and no destructive action without confirmation.</p></div>
+      <div class="pitem"><h3>Cross-verified analysis</h3><p>Two independent AI agents challenge each other's findings, then every claim is confirmed in SQL against live data. Used to verify a 35-item platform governance register.</p></div>
+      <div class="pitem"><h3>Where my evidence sits</h3><p>I am not a machine-learning researcher. My evidence is applied AI engineering: retrieval design, grounding, prompt evaluation, fallback behaviour, LLM application security and AI governance, in two applications I designed, built and operate.</p></div>
+    </div>
+  </section>
+
+  <!-- 10. Stack -->
+  <section class="block" id="stack">
+    <div class="sec-head">
+      <p class="eyebrow">Technical stack</p>
+      <div>
+        <h2>Tools, and where they show up</h2>
+      </div>
+    </div>
+    <div class="body-col table-scroll">
+      <table class="stack">
+        <thead><tr><th scope="col">Capability</th><th scope="col">Tools and technologies</th><th scope="col">Evidence in current work</th></tr></thead>
+        <tbody>
+          <tr><td>DevOps and CI/CD</td><td>Azure DevOps, Azure Repos, Git, GitHub, YAML pipelines, self-hosted agents</td><td>Pipeline design, scheduled sync, business approval gate, incremental deployment</td></tr>
+          <tr><td>Application development</td><td>Python, TypeScript, Next.js, Streamlit, Flask, Svelte, JavaScript, HTML reports</td><td>Snowflake-native apps, internal tooling, a SaaS helpdesk, a warehouse proof of concept</td></tr>
+          <tr><td>Containers</td><td>Docker, Snowpark Container Services, WSL</td><td>Knowledge base on Snowpark Container Services; per-tenant containers in Reqentra</td></tr>
+          <tr><td>Data platforms</td><td>Snowflake, Snowflake SQL, SQL Server, T-SQL, SAP HANA exposure</td><td>Stored procedures, views, tasks, MERGE and watermark sync, integration mapping</td></tr>
+          <tr><td>Integration and automation</td><td>REST APIs, OAuth M2M, OIDC, Microsoft Graph, webhooks, pyodbc, pandas, requests, Snowpark, PowerShell</td><td>Qlik API integration, SQL Server to Snowflake pipeline, scheduled tasks, reusable sync engine</td></tr>
+          <tr><td>Applied AI</td><td>Snowflake Cortex (agents, Cortex Search, COMPLETE), Ollama, Qwen 2.5, Claude Code, MCP, prompt design and evaluation</td><td>Knowledge assistant with cited retrieval; Safe Space tone review and copilot; 9 of 9 held-out replies</td></tr>
+          <tr><td>Security and governance</td><td>RBAC, JWT, Snowflake Secrets, network rules, external access integrations, Microsoft Entra ID, Fortinet background</td><td>Credential hygiene, access-control tooling, audit trails, no plaintext secrets</td></tr>
+          <tr><td>Documentation and analysis</td><td>Runbooks, SOPs, gap analysis, business rules catalogue, discovery framework, docs-as-code</td><td>23 master documents, 23 gap analyses, 200+ procedures analysed, 779-line catalogue</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Experience + education -->
+  <section class="block" id="experience">
+    <div class="sec-head">
+      <p class="eyebrow">Experience</p>
+      <div><h2>Eight years, from support desk to platform</h2></div>
+    </div>
+    <div class="body-col">
+      <ol class="timeline">
+        <li><span class="when">May 2018 to present</span><div><h3>DevOps Engineer, Sentraal-Suid Koöperasie (SSK), Swellendam</h3><p>Progressed from Senior IT Support Specialist, Developer and System Administrator into a DevOps role spanning application development, data platforms, automation and applied AI. Sole developer, deployer and maintainer of the systems above. A-rated in the most recent KPI assessment.</p></div></li>
+        <li><span class="when">Sep 2026 to present</span><div><h3>Founder and Engineer, Reqentra</h3><p>My own multi-tenant helpdesk product, currently in pilot.</p></div></li>
+        <li><span class="when">Jan 2016 to Apr 2017</span><div><h3>IT Technician, CIA-ON-SITE</h3><p>Technical support, endpoint assistance and customer-facing IT service delivery.</p></div></li>
+        <li><span class="when">2015 to 2017</span><div><h3>Earlier roles</h3><p>Administrator and manager at a guest house, and sales assistant in agricultural retail.</p></div></li>
+      </ol>
+
+      <h3 style="font-size:1.25rem;margin:44px 0 6px">Education and certifications</h3>
+      <div class="certs">
+        <div class="cert"><span>Bachelor of Business Administration, MANCOSA</span><span>in progress, 2027</span></div>
+        <div class="cert"><span>AZ-400: Designing and Implementing Microsoft DevOps Solutions</span><span>2025</span></div>
+        <div class="cert"><span>Microsoft Enterprise Administrator Expert</span><span>2024</span></div>
+        <div class="cert"><span>Microsoft Endpoint Administrator</span><span>2024</span></div>
+        <div class="cert"><span>Microsoft Certified Solutions Associate</span><span>2024</span></div>
+        <div class="cert"><span>Business Process Automation</span><span>2023</span></div>
+        <div class="cert"><span>Fortinet Network Security NSE 1, 2 and 3</span><span>2021</span></div>
+        <div class="cert"><span>ITIL 4</span><span>2021</span></div>
+        <div class="cert"><span>CompTIA A+</span><span>2019</span></div>
+        <div class="cert"><span>NQF4 Computer Engineering, Oxbridge Academy</span><span>2017</span></div>
+        <div class="cert"><span>Digital Forensic Investigator</span><span>&nbsp;</span></div>
+        <div class="cert"><span>Languages</span><span>English, Afrikaans</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. What to expect -->
+  <section class="block" id="expect">
+    <div class="sec-head">
+      <p class="eyebrow">What you can expect</p>
+      <div><h2>Where I add value quickly</h2></div>
+    </div>
+    <div class="body-col">
+      <div class="grid2">
+        <ul class="ev" style="gap:12px">
+          <li>Build and support internal applications and workflow tools in Python, Streamlit, SQL and Snowflake.</li>
+          <li>Improve Azure DevOps, Git workflows, YAML pipelines, deployment traceability and documentation structure.</li>
+          <li>Analyse SQL Server and Snowflake data workflows, stored procedures, business rules and integration dependencies.</li>
+          <li>Use AI responsibly to speed up analysis, documentation, troubleshooting and solution design.</li>
+        </ul>
+        <ul class="ev" style="gap:12px">
+          <li>Ship LLM features that hold up in production: retrieval grounding, prompt evaluation, human review and fallbacks when the model is unavailable.</li>
+          <li>Translate business requirements and operational pain points into practical, maintainable solutions.</li>
+          <li>Support production users with a troubleshooting mindset shaped by years of systems administration and L2/L3 support.</li>
+        </ul>
+      </div>
+
+      <h3 style="font-size:1.25rem;margin:44px 0 6px">Additional evidence on request</h3>
+      <div class="certs">
+        <div class="cert"><span>Access Governance App project portfolio</span><span>architecture, API, CI/CD</span></div>
+        <div class="cert"><span>DC Picking project portfolio</span><span>workflow, sync engine</span></div>
+        <div class="cert"><span>Application universe analytical portfolio</span><span>discovery method</span></div>
+        <div class="cert"><span>Access Governance App demo video and script</span><span>walkthrough</span></div>
+        <div class="cert"><span>Technical writing sample</span><span>documentation</span></div>
+        <div class="cert"><span>Technical experience document</span><span>screening summary</span></div>
+      </div>
+
+      <div class="closing" style="margin-top:44px">
+        <p><b>In summary.</b> I am not presenting myself as a Kubernetes specialist, Terraform expert, senior Azure architect or machine-learning researcher. I am presenting a defensible engineering profile: someone who has delivered internal systems, data workflows, CI/CD structures, documentation frameworks, automation patterns and two AI applications, one of them in daily production use, and who can contribute immediately while growing into the next technical layer a role requires.</p>
+        <p style="color:var(--muted);font-size:.9rem">A note on confidentiality: this portfolio is sanitised for external review. Hostnames, internal identifiers, repository paths, credentials, internal URLs, production records and confidential business data are left out or generalised, while the architecture, my contribution and the delivery evidence are kept.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="contact">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">Contact</p>
+      <h2 style="margin-top:10px">Let's talk about your platform.</h2>
+      <p class="small">Based in Swellendam, South Africa (GMT+2), open to remote roles. References available on request.</p>
+    </div>
+    <div class="contact-row" style="margin-top:0">
+      <span class="email">nico.nelissen@gmail.com</span>
+      <button class="btn" type="button" id="copy-email-2">Copy email</button>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var ADDRESS = "nico.nelissen@gmail.com";
+  function selectText(el){
+    try{ var r=document.createRange(); r.selectNodeContents(el); var s=getSelection(); s.removeAllRanges(); s.addRange(r); }catch(e){}
+  }
+  function wire(btnId){
+    var btn=document.getElementById(btnId); if(!btn) return;
+    var label=btn.textContent;
+    btn.addEventListener("click", function(){
+      var target=btn.parentElement.querySelector(".email");
+      function done(msg){ btn.textContent=msg; setTimeout(function(){ btn.textContent=label; }, 1800); }
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(ADDRESS).then(function(){ done("Copied"); }, function(){ selectText(target); done("Press Ctrl+C"); });
+      } else { selectText(target); done("Press Ctrl+C"); }
+    });
+  }
+  wire("copy-email"); wire("copy-email-2");
+})();
+</script>
+</body>
+</html>
