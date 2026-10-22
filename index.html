@@ -64,6 +64,9 @@ p{margin:0}
 /* Hero */
 .hero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:48px;padding-block:64px 40px;align-items:start}
 .hero h1{font-size:clamp(2.6rem,6.4vw,4.6rem);font-weight:800;letter-spacing:-.025em}
+.ident{display:flex;align-items:center;gap:22px}
+.avatar{width:112px;height:112px;flex:none;border-radius:50%;object-fit:cover;border:3px solid var(--card);box-shadow:0 0 0 1px var(--rule)}
+@media (max-width: 640px){.ident{gap:16px}.avatar{width:84px;height:84px}}
 .hero .role{margin-top:14px;font-family:var(--f-display);font-weight:500;font-size:clamp(1.15rem,2.2vw,1.45rem);color:var(--accent)}
 .hero .lede{margin-top:22px;max-width:60ch;font-size:1.08rem}
 .facts{margin-top:22px;display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--muted);font-size:.92rem}
@@ -223,8 +226,13 @@ footer .small{color:var(--muted);font-size:.85rem;max-width:62ch;margin-top:10px
 
   <div class="hero">
     <div>
-      <p class="eyebrow">Technical portfolio</p>
-      <h1 style="margin-top:12px">Nico Nelissen</h1>
+      <div class="ident">
+        <img class="avatar" src="profile.jpg" alt="Portrait of Nico Nelissen" width="112" height="112">
+        <div>
+          <p class="eyebrow">Technical portfolio</p>
+          <h1 style="margin-top:8px">Nico Nelissen</h1>
+        </div>
+      </div>
       <p class="role">DevOps Engineer | Applications, Data Platforms &amp; Applied AI</p>
       <p class="lede">I build, ship and run the systems I design: Snowflake applications, hybrid SQL Server to cloud data flows, Azure DevOps delivery and LLM features that hold up with real users. Eight years at an agricultural cooperative took me from senior IT support to sole developer of its business-critical tooling.</p>
       <div class="facts">
