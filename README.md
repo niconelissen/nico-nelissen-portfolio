@@ -1,6 +1,6 @@
 # Nico Nelissen | Portfolio
 
-DevOps Engineer | Applications, Data Platforms & Applied AI. Based in Swellendam, South Africa, and open to remote roles.
+AI Engineer | Agent orchestration, MCP tooling, Snowflake Cortex and data platforms. Based in Swellendam, South Africa, and open to remote roles.
 
 **View the portfolio:** https://niconelissen.github.io/nico-nelissen-portfolio/
 
