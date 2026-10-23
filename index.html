@@ -410,7 +410,7 @@ footer .small{color:var(--muted);font-size:.85rem;max-width:62ch;margin-top:10px
 
     <article class="case" id="access">
       <div class="case-top"><span class="eyebrow">Case file 03</span><span class="chip done">Replaced an externally hosted product</span></div>
-      <h3>Access Governance App (QlikAccessManager)</h3>
+      <h3>Access Governance App</h3>
       <p class="summary">A Snowflake-native web application built to manage Qlik Cloud Section Access, row-level security and user, space and app permissions. It replaced a legacy externally hosted solution and consolidated access-management logic into Snowflake.</p>
       <dl class="record">
         <div><dt>My role</dt><dd>Sole developer, solution designer, deployer and maintainer</dd></div>
@@ -425,10 +425,10 @@ footer .small{color:var(--muted);font-size:.85rem;max-width:62ch;margin-top:10px
             <li><b>1,300+ line Streamlit application</b> with five functional areas: policy management, Qlik spaces, Qlik apps, access audit and bulk import.</li>
             <li><b>17 stored procedures</b> using Python for Qlik Cloud API integration and SQL for data operations.</li>
             <li><b>5 scheduled Snowflake tasks</b> in a dependency chain for user, space, app and permission synchronisation.</li>
-            <li><b>OAuth M2M token acquisition</b> with user impersonation for audit compliance.</li>
+            <li><b>OAuth M2M authentication</b> to the Qlik Cloud API, with every change attributable for audit.</li>
             <li><b>Webhook integration</b> that triggers a Qlik application reload after policy changes.</li>
             <li><b>Azure DevOps CI/CD</b> with a business approval gate and incremental deployment.</li>
-            <li><b>Security controls:</b> JWT key-pair authentication, Snowflake Secrets, network rules, external access integration and RBAC.</li>
+            <li><b>Security by default:</b> managed secrets, role-based access and no plaintext credentials.</li>
           </ul>
         </div>
         <div>
@@ -479,7 +479,7 @@ footer .small{color:var(--muted);font-size:.85rem;max-width:62ch;margin-top:10px
 
     <article class="case" id="dcpicking">
       <div class="case-top"><span class="eyebrow">Case file 05</span><span class="chip poc">Proof of concept, no end users</span></div>
-      <h3>DC Picking / ItemWarehouse</h3>
+      <h3>DC Picking</h3>
       <p class="summary">A proof of concept: a Snowflake-native rebuild of a legacy warehouse order-picking application. It shows how a desktop-style process could move to a web-based tool backed by Snowflake and on-prem SQL Server data. It was rebuilt from the legacy application, without end users involved.</p>
       <dl class="record">
         <div><dt>My role</dt><dd>Sole developer and solution designer</dd></div>
@@ -513,21 +513,21 @@ footer .small{color:var(--muted);font-size:.85rem;max-width:62ch;margin-top:10px
 
     <article class="case" id="containers">
       <div class="case-top"><span class="eyebrow">Case file 06</span><span class="chip wip">In progress</span></div>
-      <h3>Containerised Non-Production Environments</h3>
-      <p class="summary">An initiative to containerise the training, user acceptance and test environments of a point-of-sale system. I am the technical driver, reporting to a non-technical project lead. The first gate is complete; the build pipeline stage is planned and waiting on licensing, access approval and vendor support.</p>
+      <h3>Containerising Non-Production Environments</h3>
+      <p class="summary">An initiative to containerise the non-production environments of a business-critical system, with me as the technical driver. The project foundation is in place and the build pipeline stage is next.</p>
       <div class="two">
         <div>
           <h4>Delivered so far</h4>
           <ul class="ev">
             <li><b>A new Azure DevOps project</b> as the home for the initiative.</li>
-            <li><b>A scaffold repository</b> with a three-branch model for development, minor and major releases.</li>
-            <li><b>An epic with 12 priority work items</b> drawn from a restriction register, each tagged with its RACI role.</li>
+            <li><b>A scaffold repository</b> with a branching model for development and releases.</li>
+            <li><b>An epic with 12 priority work items</b>, each tagged with its RACI role.</li>
           </ul>
         </div>
         <div>
           <h4>Next</h4>
           <ul class="ev">
-            <li>Build agent, container registry service connection and pipeline.</li>
+            <li>Build agent, container registry and pipeline.</li>
           </ul>
         </div>
       </div>
@@ -547,11 +547,11 @@ footer .small{color:var(--muted);font-size:.85rem;max-width:62ch;margin-top:10px
       <div class="pitem"><h3>Azure DevOps and Git</h3><p>Repos, branches, pull requests, work items, wiki documentation, YAML pipelines and deployment structures. Fetch and rebase before every push, one branch per change.</p></div>
       <div class="pitem"><h3>CI/CD and deployment control</h3><p>Manual business approval gates, scheduled triggers, conditional deployment steps, incremental deployment and pipeline logging.</p></div>
       <div class="pitem"><h3>Self-hosted agents</h3><p>Used where pipelines need access to on-prem SQL Server or internal network resources.</p></div>
-      <div class="pitem"><h3>Secrets and authentication</h3><p>Azure DevOps variable groups, Snowflake Secrets, JWT key-pair authentication and no plaintext credentials.</p></div>
-      <div class="pitem"><h3>Infrastructure-as-code habits</h3><p>Version-controlled SQL DDL for Snowflake objects, network rules, external access integrations, tasks, procedures and app deployment configuration.</p></div>
+      <div class="pitem"><h3>Secrets and authentication</h3><p>Secrets held in managed stores, key-pair authentication and no plaintext credentials.</p></div>
+      <div class="pitem"><h3>Infrastructure-as-code habits</h3><p>Version-controlled SQL DDL for Snowflake objects, tasks, procedures and app deployment configuration.</p></div>
       <div class="pitem"><h3>Supportability</h3><p>Runbooks, architecture documentation, business rules, handover material, audit trails and investigation notes.</p></div>
-      <div class="pitem"><h3>Evidence over assumption</h3><p>When a governance review was prepared for the platform, I checked its claims against live account telemetry, added 8 new findings to a 35-item register and corrected two claims the data did not support. Each entry was then reshaped with a mitigation, an owner and an official documentation reference.</p></div>
-      <div class="pitem"><h3>Testing within constraints</h3><p>Where the corporate laptop had no Node.js for browser test tooling, front-end changes were verified by driving headless Edge over the Chrome DevTools Protocol from Python.</p></div>
+      <div class="pitem"><h3>Evidence over assumption</h3><p>Claims are checked against live data before they go into a report, and anything the data does not support is corrected or removed.</p></div>
+      <div class="pitem"><h3>Testing within constraints</h3><p>Where standard browser test tooling was not available, front-end changes were verified by driving headless Edge over the Chrome DevTools Protocol from Python.</p></div>
     </div>
   </section>
 
@@ -571,7 +571,7 @@ footer .small{color:var(--muted);font-size:.85rem;max-width:62ch;margin-top:10px
       <div class="pitem"><h3>Solution planning</h3><p>Compare implementation options, find edge cases and reason through operational impact before building.</p></div>
       <div class="pitem"><h3>Process improvement</h3><p>Find repeated manual work that can be scripted, automated, documented or redesigned.</p></div>
       <div class="pitem"><h3>Agentic coding with guardrails</h3><p>Claude Code with persistent project rules, a branch and reviewed pull request for every change, MCP tooling for extraction, and no destructive action without confirmation.</p></div>
-      <div class="pitem"><h3>Cross-verified analysis</h3><p>Two independent AI agents challenge each other's findings, then every claim is confirmed in SQL against live data. Used to verify a 35-item platform governance register.</p></div>
+      <div class="pitem"><h3>Cross-verified analysis</h3><p>Two independent AI agents challenge each other's findings, then every claim is confirmed in SQL against live data.</p></div>
       <div class="pitem"><h3>Where my evidence sits</h3><p>I am not a machine-learning researcher. My evidence is applied AI engineering: retrieval design, grounding, prompt evaluation, fallback behaviour, LLM application security and AI governance, in two applications I designed, built and operate.</p></div>
     </div>
   </section>
@@ -594,7 +594,7 @@ footer .small{color:var(--muted);font-size:.85rem;max-width:62ch;margin-top:10px
           <tr><td>Data platforms</td><td>Snowflake, Snowflake SQL, SQL Server, T-SQL, SAP HANA exposure</td><td>Stored procedures, views, tasks, MERGE and watermark sync, integration mapping</td></tr>
           <tr><td>Integration and automation</td><td>REST APIs, OAuth M2M, OIDC, Microsoft Graph, webhooks, pyodbc, pandas, requests, Snowpark, PowerShell</td><td>Qlik API integration, SQL Server to Snowflake pipeline, scheduled tasks, reusable sync engine</td></tr>
           <tr><td>Applied AI</td><td>AI agent orchestration, Snowflake Cortex (agents, Cortex Search, COMPLETE), Ollama, Qwen 2.5, Claude Code, MCP, prompt design and evaluation</td><td>Knowledge assistant with cited retrieval; Safe Space tone review and copilot; 9 of 9 held-out replies</td></tr>
-          <tr><td>Security and governance</td><td>RBAC, JWT, Snowflake Secrets, network rules, external access integrations, Microsoft Entra ID, Fortinet background</td><td>Credential hygiene, access-control tooling, audit trails, no plaintext secrets</td></tr>
+          <tr><td>Security and governance</td><td>RBAC, key-pair authentication, managed secrets, Microsoft Entra ID, Fortinet background</td><td>Credential hygiene, access-control tooling, audit trails, no plaintext secrets</td></tr>
           <tr><td>Documentation and analysis</td><td>Runbooks, SOPs, gap analysis, business rules catalogue, discovery framework, docs-as-code</td><td>23 master documents, 23 gap analyses, 200+ procedures analysed, 779-line catalogue</td></tr>
         </tbody>
       </table>
