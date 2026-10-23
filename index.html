@@ -326,7 +326,7 @@ footer .small{color:var(--muted);font-size:.85rem;max-width:62ch;margin-top:10px
       <p class="eyebrow">Case studies</p>
       <div>
         <h2>Case files</h2>
-        <p class="intro">Each file records my role, the build type, the business value, what I delivered and what it demonstrates. Statuses are stated plainly: in daily use, pilot or proof of concept.</p>
+        <p class="intro">Each file records my role, the build type, the business value, what I delivered and what it demonstrates. Statuses are stated plainly: in daily use, pilot or proof of concept. These are a hand-picked selection of the most relevant builds and designs, not a complete list of my work.</p>
       </div>
     </div>
 
@@ -349,6 +349,7 @@ footer .small{color:var(--muted);font-size:.85rem;max-width:62ch;margin-top:10px
             <li><b>Agentic retrieval.</b> A Cortex agent orchestrates two Cortex Search services, one over document chunks and one over SQL object definitions, and returns cited answers with section-level source trails. Cortex COMPLETE is the fallback.</li>
             <li><b>Deterministic routing</b> for roster-style questions, such as listing every SQL Agent job, where top-k retrieval is the wrong tool. The reasoning is documented in code.</li>
             <li><b>Git-driven content.</b> The app reads documentation straight from the repository branch in Snowflake, so it always serves what version control holds.</li>
+            <li><b>Documentation that keeps itself current.</b> An Azure DevOps pipeline checks the source code and applications for changes. When it finds any, it opens a pull request to merge them into main, so the knowledge base serves the latest documentation after a review.</li>
             <li><b>Retrieval-only grounding.</b> Every answer is grounded by Cortex Search at question time. No facts are precomputed into prompts, and prompts are assembled server side only; the browser never sends a system prompt.</li>
             <li><b>A deliberate platform decision.</b> I built, then reverted, a direct LLM API path in favour of Cortex. Cortex needs no API key, egress rule or key rotation, authenticates with the container's own session and still offers Claude models.</li>
             <li><b>Operational hardening.</b> Request time budgeting with fallback paths, usage logging, chat history and feedback capture, cache-busting build IDs and refresh endpoints.</li>
